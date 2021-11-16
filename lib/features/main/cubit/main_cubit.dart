@@ -27,6 +27,7 @@ class MainCubit extends Cubit<MainCubitState> {
 
   Future<List<UserModel>> getUsers() async {
     List<UserModel> ll = [];
+    users = [];
     await FirebaseFirestore.instance
         .collection('users')
         .where('uid', isNotEqualTo: tokenValue)

@@ -79,27 +79,28 @@ class LoginCubit extends Cubit<LoginState> {
       try {
         final UserCredential userCredential =
             await _auth.signInWithCredential(credential);
-
         user = userCredential.user;
-
         CacheHelper.saveData(key: 'Token', value: user!.uid);
         String? fcmToken = await FirebaseMessaging.instance.getToken();
-        UserModel _userModel = UserModel(
-            name: '${user.displayName}',
-            email: '${user.email}',
-            fcmToken: fcmToken!,
-            photoUrl: user.photoURL!,
-            phone: '',
-            verified: false,
-            uid: user.uid);
-
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .set(_userModel.toMap())
-            .then((value) {})
-            .catchError((e) {
-          print(e.toString());
+        await emailCheck(user.email!).then((value) async {
+          if (value == true) {
+            UserModel _userModel = UserModel(
+                name: '${user!.displayName}',
+                email: '${user.email}',
+                fcmToken: fcmToken!,
+                photoUrl: user.photoURL!,
+                phone: '',
+                verified: false,
+                uid: user.uid);
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .set(_userModel.toMap())
+                .then((value) {})
+                .catchError((e) {
+              print(e.toString());
+            });
+          }
         });
         //  await UserCubit.creatUserInFireStore(_userModel);
         Navigation.goTo(c, MainScreen());
@@ -120,5 +121,11 @@ class LoginCubit extends Cubit<LoginState> {
     return user;
   }
 
-  
+  Future<bool> emailCheck(String email) async {
+    final result = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+    return result.docChanges.isEmpty;
+  }
 }
