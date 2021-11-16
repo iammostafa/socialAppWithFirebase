@@ -86,8 +86,6 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            print('ss');
-                            // cubit.addFriend(tokenValue!, tokenValue!, widget.user!.uid);
                             Navigation.goTo(context, CallScreen());
                           },
                           child: Padding(
