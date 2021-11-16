@@ -38,10 +38,9 @@ class _MainScreenState extends State<MainScreen> {
               if (state is MainCubitLoading) {
                 return Center(child: CircularProgressIndicator());
               } else if (state is MainCubitSuccess) {
-                List<String> messages = [];
                 return Column(children: [
                   RefreshIndicator(
-                    onRefresh: () => cubit.getUsers(),
+                    onRefresh: () => cubit.getUserData(tokenValue),
                     child: ListView.builder(
                       itemBuilder: (c, i) {
                         return _buildChatCard(cubit.users![i]);

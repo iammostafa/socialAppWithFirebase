@@ -24,7 +24,7 @@ class RoundedUserPicture extends StatelessWidget {
                 fit: BoxFit.cover,
               )
             : Image.asset(
-                userPicture,
+                'assets/images/person1.jpeg',
                 width: width,
                 height: height,
                 fit: BoxFit.cover,

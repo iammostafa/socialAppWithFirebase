@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_app/features/user/models/user_model.dart';
 import 'package:social_app/main.dart';
-
 part 'main_cubit_state.dart';
 
 class MainCubit extends Cubit<MainCubitState> {
@@ -14,6 +13,7 @@ class MainCubit extends Cubit<MainCubitState> {
   UserModel? user;
   List<UserModel>? users = [];
   Future<UserModel> getUserData(uid) async {
+    users = [];
     emit(MainCubitLoading());
     final result = await FirebaseFirestore.instance
         .collection('users')
@@ -27,14 +27,12 @@ class MainCubit extends Cubit<MainCubitState> {
 
   Future<List<UserModel>> getUsers() async {
     List<UserModel> ll = [];
-    var s;
     await FirebaseFirestore.instance
         .collection('users')
         .where('uid', isNotEqualTo: tokenValue)
         .get()
         .then((value) {
-      s = value.docs;
-      for (var user in s) {
+      for (var user in value.docs) {
         ll.add(UserModel.fromMap(user.data()));
       }
     });
@@ -42,8 +40,8 @@ class MainCubit extends Cubit<MainCubitState> {
     return ll;
   }
 
-  getLastMessageofUser({String? myId , String? userId}) async {
-    String result ='';
+  getLastMessageofUser({String? myId, String? userId}) async {
+    String result = '';
     await FirebaseFirestore.instance
         .collection('users')
         .doc('$userId') // other user id
@@ -55,8 +53,6 @@ class MainCubit extends Cubit<MainCubitState> {
       print('${value.docs.first.data()["message"]}');
       result = value.docs.first.data()["message"];
     });
-    
-
     return result;
   }
 

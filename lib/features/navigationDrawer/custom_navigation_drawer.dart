@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:social_app/features/login/screens/login_screen.dart';
 import 'package:social_app/features/main/cubit/main_cubit.dart';
+import 'package:social_app/features/profileSettings/profile_settings.dart';
+import 'package:social_app/features/user/models/user_model.dart';
 import 'package:social_app/global/navigation.dart';
 import 'package:social_app/global/spManager.dart';
 
@@ -32,8 +34,7 @@ class CustomNavigationDrawer extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     children: [
                       drawerTopWidget(context),
-                      drawerUserWidget(
-                          context, cubit.user!.name, cubit.user!.photoUrl),
+                      drawerUserWidget(context, cubit.user!),
                       drawerListTile(
                           context, 'assets/images/Contacts.png', 'Contacts'),
                       drawerListTile(
@@ -86,37 +87,45 @@ class CustomNavigationDrawer extends StatelessWidget {
     );
   }
 
-  Container drawerUserWidget(
-      BuildContext context, String name, String photoUrl) {
-    return Container(
-      height: 110,
-      width: double.infinity,
-      child: Row(
-        children: [
-          SizedBox(
-            width: 15,
-          ),
-          ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: CachedNetworkImage(
-                imageUrl: photoUrl,
-                width: 82,
-                height: 82,
-                fit: BoxFit.cover,
-              )),
-          SizedBox(
-            width: 15,
-          ),
-          Container(
-              height: 50,
-              width: 90,
-              child: Center(
-                child: Text(
-                  name,
-                  style: Theme.of(context).copyWith().textTheme.bodyText1,
-                ),
-              ))
-        ],
+  Widget drawerUserWidget(BuildContext context, UserModel user) {
+    return GestureDetector(
+      onTap: () {
+        Navigation.goTo(
+            context,
+            ProfileSettings(
+              userModel: user,
+            ));
+      },
+      child: Container(
+        height: 110,
+        width: double.infinity,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 15,
+            ),
+            ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: CachedNetworkImage(
+                  imageUrl: user.photoUrl,
+                  width: 82,
+                  height: 82,
+                  fit: BoxFit.cover,
+                )),
+            SizedBox(
+              width: 15,
+            ),
+            Container(
+                height: 50,
+                width: 90,
+                child: Center(
+                  child: Text(
+                    user.name,
+                    style: Theme.of(context).copyWith().textTheme.bodyText1,
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }
