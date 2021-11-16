@@ -4,8 +4,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 
-const appId = "778be915d73a42c18f2f871be0b45781";
-const token = "<-- Insert Token -->";
+const appId = "41496ada2ced47038aa209dfb0e58589";
+const token =
+    "00641496ada2ced47038aa209dfb0e58589IABV+9HWrvv9GlfYjyORp4BkNKD1RbHGEd6caldpko8f+wx+f9gAAAAAEAC3RriCzA6VYQEAAQDLDpVh";
 
 class CallScreen extends StatefulWidget {
   const CallScreen({Key? key}) : super(key: key);
@@ -53,7 +54,6 @@ class _CallScreenState extends State<CallScreen> {
         },
       ),
     );
-
     await _engine.joinChannel(token, "test", null, 0);
   }
 
@@ -91,5 +91,12 @@ class _CallScreenState extends State<CallScreen> {
         textAlign: TextAlign.center,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _engine.destroy();
+    _engine.leaveChannel();
+    super.dispose();
   }
 }

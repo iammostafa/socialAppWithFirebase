@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:social_app/features/call/screens/call_screen.dart';
 import 'package:social_app/features/chat/cubit/chat_cubit.dart';
 import 'package:social_app/features/login/screens/login_screen.dart';
 import 'package:social_app/features/user/models/user_model.dart';
 import 'package:social_app/global/custom_colors.dart';
 import 'package:social_app/global/globalWidgets.dart';
+import 'package:social_app/global/navigation.dart';
 import 'package:social_app/main.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -37,8 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
           widget.user!.uid,
         );
         return BlocConsumer<ChatCubit, ChatState>(
-          listener: (context, state) {
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             var cubit = ChatCubit.get(context);
             return Scaffold(
@@ -84,18 +85,18 @@ class _ChatScreenState extends State<ChatScreen> {
                           ],
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             print('ss');
-                            cubit.addFriend(tokenValue!, tokenValue!, widget.user!.uid);
-                          } ,
+                            // cubit.addFriend(tokenValue!, tokenValue!, widget.user!.uid);
+                            Navigation.goTo(context, CallScreen());
+                          },
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 19.0),
-                            child: Image.asset(
-                              'assets/images/Profile menu.png',
-                              height: 20,
-                              width: 20,
-                            ),
-                          ),
+                              padding: const EdgeInsets.only(right: 19.0),
+                              child: Icon(
+                                Icons.video_call,
+                                color: CustomColors.primaryColor,
+                                size: 45,
+                              )),
                         )
                       ],
                     ),
@@ -263,8 +264,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                     BlocConsumer<ChatCubit, ChatState>(
-                      listener: (context, state) {
-                      },
+                      listener: (context, state) {},
                       builder: (context, state) {
                         var cubit = ChatCubit.get(context);
                         return Padding(

@@ -116,7 +116,7 @@ class ProfileSettings extends StatelessWidget {
                     height: 2.h,
                   ),
                   Text(
-                    '@iammosstafa',
+                    '@aabdullah',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   SizedBox(
