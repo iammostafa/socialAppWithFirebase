@@ -67,13 +67,7 @@ class ChatCubit extends Cubit<ChatState> {
 
       event.docs.forEach((element) {
         messagesList.add(ChatModel.fromMap(element.data()));
-        // messagesList2.addAll(messagesList.reversed);
-        //  messagesList.addAll(messagesList.reversed)   ;
-        // messagesList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-        // _scrollController.animateTo(
-        //     _scrollController.position.maxScrollExtent * 1.1,
-        //     duration: const Duration(milliseconds: 400),
-        //     curve: Curves.fastOutSlowIn);
+
       });
       messagesList2.addAll(messagesList.reversed);
     });
